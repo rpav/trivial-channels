@@ -1,7 +1,4 @@
-(in-package :canvas.ext.anim)
-
-;;; This is ripped off from the cl-xcb-xlib version, but copied since
-;;; that may not be available from here.
+(in-package :trivial-channels)
 
  ;; Stupid simple queue, no locking
 

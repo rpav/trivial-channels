@@ -9,8 +9,7 @@
   :license "BSD-2-Clause"
   :version "1.0"
 
-  :depends-on ()
-  :pathname "src"
+  :depends-on (:bordeaux-threads :trivial-timeout)
   :serial t
 
   :components
