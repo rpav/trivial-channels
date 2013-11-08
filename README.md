@@ -26,6 +26,36 @@ Notably, `recvmsg` supports a timeout.  These functions properly lock
 and it's safe to share a channel between threads (that being the
 entire purpose).
 
+## Usage
+
+While trivial-channels should be simple enough you can adapt it to
+many usage patterns, for simple bi-directional message passing I have
+found it easiest to simply pass a message with a return-channel
+included:
+
+```lisp
+;;; Sender:
+(defvar *global-listener* (make-channel))
+(defvar *done* nil)
+
+(let* ((return-channel (make-channel))
+       (msg (cons 'value return-channel)))
+  (sendmsg *global-listener* msg)
+  (recvmsg return-channel))
+
+;;; Meanwhile, in another thread:
+(loop until *done* do
+  (let ((msg (recvmsg *global-listener*)))
+    (let ((value (car msg))
+          (channel (cdr msg)))
+      ;; insert useful things here
+      (sendmsg channel ...))))
+```
+
+Of course, you needn't create a new return channel every time, either,
+if you are worried about consing, but this is an easy way to pass
+functions to a specific thread, implement actors, etc.
+
 ## Queues
 
 The queue used to implement this is also exported, since it's the
