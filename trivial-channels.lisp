@@ -84,6 +84,10 @@ later should it prove less-than-optimal."
   (q-condition (bt:make-condition-variable))
   (q-mutex (bt:make-lock)))
 
+(defun hasmsg (channel)
+  (bt:with-lock-held ((channel-q-mutex channel))
+    (queue-has-item-p (channel-queue channel))))
+
 (defun sendmsg (channel msg)
   (bt:with-lock-held ((channel-q-mutex channel))
     (queue-add (channel-queue channel) msg)
