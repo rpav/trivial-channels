@@ -1,12 +1,14 @@
-(defpackage :trivial-channels
+(defpackage :trivial-channels.queue
   (:use #:cl)
   (:export
-
-   ;; Queue
+   #:queue
    #:make-queue #:queue-head #:queue-tail
    #:queue-add-cons #:queue-add #:queue-push #:queue-pop
    #:queue-pop-cons #:queue-peek #:queue-pop-to
-   #:queue-prepend-to #:queue-has-item-p
+   #:queue-prepend-to #:queue-has-item-p))
 
-   ;; Channels
+(defpackage :trivial-channels
+  (:use #:cl #:trivial-channels.queue)
+  (:export
    #:channel #:make-channel #:hasmsg #:sendmsg #:recvmsg #:getmsg))
+

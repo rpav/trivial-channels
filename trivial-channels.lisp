@@ -1,4 +1,4 @@
-(in-package :trivial-channels)
+(in-package :trivial-channels.queue)
 
  ;; Stupid simple queue, no locking
 
@@ -63,6 +63,10 @@
     (setf (queue-head q1) nil)
     (setf (queue-tail q1) nil))
   (values))
+
+ ;; Channels
+
+(in-package :trivial-channels)
 
  ;; timing and timeouts
 

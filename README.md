@@ -58,9 +58,9 @@ functions to a specific thread, implement actors, etc.
 
 ## Queues
 
-The queue used to implement this is also exported, since it's the
-majority of the code, and it's sometimes handy to have a trivial
-queue, too.
+The queue used to implement this is also available via the package
+`:trivial-channels.queue`, since it's sometimes handy to have a
+trivial queue, too.
 
 Queues do **not** lock.
 
