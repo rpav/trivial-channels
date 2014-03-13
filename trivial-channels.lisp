@@ -99,7 +99,7 @@ later should it prove less-than-optimal."
 
 (defun recvmsg (channel &optional timeout)
   (bt:with-lock-held ((channel-q-mutex channel))
-    (unless (queue-has-item-p (channel-queue channel))
+    (loop until (queue-has-item-p (channel-queue channel)) do
       (wait-with-timeout (channel-q-condition channel)
                          (channel-q-mutex channel)
                          timeout))
