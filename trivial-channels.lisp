@@ -73,13 +73,21 @@
 (defun wait-with-timeout (condition mutex seconds)
   "By default we use TRIVIAL-TIMEOUTS; this can be changed for implementations
 later should it prove less-than-optimal."
-  (when (or (null seconds) (> seconds 0))
-    (handler-case
-        (trivial-timeout:with-timeout (seconds)
-          (bt:condition-wait condition mutex)
-          t)
-      (trivial-timeout:timeout-error (e)
-        (declare (ignore e))))))
+  ;; Don't depend on TRIVIAL-TIMEOUTS for all cases because it *may* be
+  ;; broken on some platforms.
+  (cond
+    ((and seconds (> seconds 0))
+     (handler-case
+         (trivial-timeout:with-timeout (seconds)
+           (bt:condition-wait condition mutex)
+           t)
+       (trivial-timeout:timeout-error (e)
+         (declare (ignore e)))))
+    ;; If (zerop seconds) then we don't wait for anything.
+    ;; --
+    ;; If (null seconds) then wait forever.
+    ((null seconds)
+     (bt:condition-wait condition mutex))))
 
  ;; trivial channels
 
